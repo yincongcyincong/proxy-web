@@ -1,0 +1,9 @@
+proxy-web
+proxy-web.exe
+*.exe~
+/db/bucket/
+/upload/
+/data/services/
+/tmp/
+.idea/
+/log/
