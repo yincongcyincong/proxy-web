@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>proxy</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/price.css">
+    <style>
+        .upImgBtn {
+            opacity: 0;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            font-size: 15px;
+            vertical-align: middle !important;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="ng-scope" style="margin:5px 0 10px 2px;">
+    <div class="profile-actions">
+        <button onclick="startUpload()" class="btn btn-default ng-binding add" data-toggle="modal"
+                data-target="#exampleModal">
+            <span class="glyphicon glyphicon-plus"></span> 添加代理
+        </button>
+        <button onclick="sysSetting()" class="btn btn-default ng-binding add" data-toggle="modal"
+                data-target="#settingModal">
+            <span class="glyphicon glyphicon-cog"></span> 系统配置
+        </button>
+        <button class="btn btn-default ng-binding add" onclick="logout(1)">
+            <span class="glyphicon glyphicon-share-alt"></span> 退出
+        </button>
+        <div style="color: #fff; float:right;">
+            goproxy-sdk版本: v{{.proxy_version}}, proxy-web版本：{{.version}}
+        </div>
+        <!-- <button class="btn btn-default ng-binding" data-toggle="modal" data-target="#keygenModal">
+             <span class="glyphicon glyphicon-lock"></span> 生成加密证书
+         </button> -->
+    </div>
+
+</div>
+
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">系统配置</h4>
+            </div>
+            <div class="modal-body">
+                <form class="setting">
+
+                    <div class="form-group auto">
+                        <label class="checkbox-inline" style="font-weight: 700;">
+                            <input {{if .auto_start}} checked {{end}}type="checkbox" class="auto_start" value="auto">
+                            开机启动
+                        </label>
+                        <label class="checkbox-inline" style="font-weight: 700;">
+                            <input {{if .proxy}}
+                            checked {{end}}type="checkbox" class="proxy" value="proxy" onclick="sysSetting()"> 全局http代理
+                        </label>
+                    </div>
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            IP:
+                        </label> &nbsp;&nbsp;&nbsp;
+                        <input type="text"
+                               class="form-control ng-pristine ng-valid ng-not-empty ng-valid-required ng-touched proxy-ip"
+                               placeholder="" name="ip" style="display:table-caption; width:30%;" value="{{.ip}}">
+                        <label class="control-label">
+                            端口:
+                        </label> &nbsp;&nbsp;&nbsp;
+                        <input type="text"
+                               class="form-control ng-pristine ng-valid ng-not-empty ng-valid-required ng-touched proxy-port"
+                               placeholder="" name="port" style="display:table-caption; width:30%;" value="{{.port}}">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="saveSetting()" class="btn signupNoMarginPadding">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">添加proxy</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" name="id" value="">
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            名称:
+                        </label>
+                        <br>
+                        <input type="text"
+                               class="form-control ng-pristine ng-valid ng-not-empty ng-valid-required ng-touched"
+                               placeholder="" name="name">
+                    </div>
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            参数:
+                        </label>
+                        <br>
+                        <textarea class="form-control" rows="3" name="command"></textarea>
+                    </div>
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            自启动:
+                        </label> &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="auto" data-val="" checked value="否"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="auto" value="是"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                    </div>
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            记录日志:
+                        </label> &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="log" data-val="" checked value="否"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="log" value="是"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                    </div>
+
+                    <div class="form-group encryptTerm">
+                        <label for="recipient-name" class="control-label">
+                            上传key，crt文件:
+                        </label>
+                        <br>
+                        <input type="hidden" name="key">
+                        <a class="signupNoMargin file_upload" style="margin-top: 0px;">.key文件</a>
+                        <input type="hidden" name="crt" style="margin: 0px 0 0 0;">
+                        <a class="signupNoMargin file_upload">.crt文件</a>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="add()" class="btn signupNoMarginPadding">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">修改proxy</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" name="id" value="">
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            名称:
+                        </label>
+                        <br>
+                        <input type="text"
+                               class="form-control ng-pristine ng-valid ng-not-empty ng-valid-required ng-touched"
+                               placeholder="" name="name">
+                    </div>
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            参数:
+                        </label>
+                        <br>
+                        <textarea class="form-control" rows="3" name="command"></textarea>
+                    </div>
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            自启动:
+                        </label> &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="auto" data-val="" checked value="否"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="auto" value="是"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                    </div>
+
+                    <div class="form-group auto">
+                        <label class="control-label">
+                            记录日志:
+                        </label> &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="log" data-val="" checked value="否"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="log" value="是"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                    </div>
+
+                    <div class="form-group encryptTerm">
+                        <label for="recipient-name" class="control-label">
+                            上传key,crt文件:
+                        </label>
+                        <br>
+                        <input type="hidden" name="key">
+                        <a class="signupNoMargin file_upload">.key文件</a>
+                        <input type="hidden" name="crt">
+                        <a class="signupNoMargin file_upload">.crt文件</a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="update()" class="btn signupNoMarginPadding">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="deleteModal">删除</h4>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <div>
+                    <label for="recipient-name" class="control-label">
+                        你确定要删除吗？
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" onclick="del()" data-dismiss="modal" class="btn signupNoMarginPadding">删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="pricing-table" class="clear">
+</div>
+
+</body>
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/static/js/notify.js"></script>
+<script type="text/javascript" src="/static/js/layer.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/webupload/webuploader.js"></script>
+<script type="text/javascript">
+
+    var html = '<div class="plan">\n' +
+            '        <h3 class="link"><span onclick="link(this)">连接</span></h3>\n' +
+            '        <h3 class="closed" style="display: none;"><span onclick="closed(this)" >关闭</span></h3>\n' +
+            '        <ul>\n' +
+            '            <li><b>名称：</b> <span class="nameSpan"></span></li>\n' +
+            '            <li><b>参数：</b> <br> <span class="commandSpan"></span></li>\n' +
+            '            <li><b>自启动：</b><span class="autoSpan"></span></li>\n' +
+            '            <li><b>记录日志：</b> <span class="logSpan"></span></li>\n' +
+            '        </ul> \n' +
+            '        <a class="log signup" onclick="showLog(this)">日志</a> ' +
+            '        <a class="update signup" onclick="getData(this)">修改</a> ' +
+            '        <a class="delete signup" onclick="confirmDel(this)">删除</a> ' +
+            '    </div>';
+
+    function initData() {
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/getData",
+            data: "id=0",
+            dataType: "json",
+            success: function (res) {
+                for (var i in res.data) {
+                    addContent(res.data[i])
+                }
+                width = res.data.length * 200
+                $("#pricing-table").css("width", width + "px")
+            }
+        });
+    }
+
+    function addContent(data) {
+        $('#pricing-table').append(html)
+        $('.log').eq(-1).attr('id', data['id'])
+        $('.commandSpan').eq(-1).html(data['command'])
+        $('.nameSpan').eq(-1).html(data['name'])
+        $('.autoSpan').eq(-1).html(data['auto_start'])
+        $('.logSpan').eq(-1).html(data['log'])
+
+        if (data['status'] == "已开启") {
+            $('.link').eq(-1).hide()
+            $('.closed').eq(-1).show()
+        }
+    }
+
+    initData()
+
+    function add() {
+        var name = $('form').eq(1).find("input[name=name]").val()
+        var command = $('form').eq(1).find("textarea[name=command]").val()
+        if (name == "") {
+            $.notify("代理名不能为空", {
+                className: "error",
+                elementPosition: "top right",
+                arrowShow: false
+            })
+            return
+        }
+        if (command == "") {
+            $.notify("代理命令不能为空", {
+                className: "error",
+                elementPosition: "top right",
+                arrowShow: false
+            })
+            return
+        }
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/add",
+            data: $('form').eq(1).serialize(),
+            dataType: "json",
+            success: function (res) {
+                $.notify("添加成功", "success")
+                addContent(res.data)
+                $('#exampleModal').modal('hide')
+                widthOrigin = $("#pricing-table").css("width")
+                if (widthOrigin != "800px") {
+                    width = widthOrigin.substr(0, 3)
+                    width = parseInt(width) + 200
+                    $("#pricing-table").css("width", width + "px")
+
+                }
+            }
+        });
+    }
+
+    function link(ob) {
+        $(ob).prop('disabled', true)
+        var id = $(ob).parents(".plan").find('.log').attr('id')
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/link",
+            data: "id=" + id,
+            dataType: "json",
+            success: function (res) {
+                $(ob).parents(".plan").notify("启动成功", {
+                    className: "success",
+                    elementPosition: "top left",
+                    arrowShow: false
+                })
+                $(ob).parent("h3").hide()
+                $(ob).parent("h3").siblings('.closed').show()
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (XMLHttpRequest.status == 500) {
+                    $(ob).parent("h3").notify(XMLHttpRequest.responseJSON.msg, {
+                        className: "error",
+                        elementPosition: "top right",
+                        arrowShow: false
+                    })
+                }
+            }
+        });
+    }
+
+    function closed(ob) {
+        $('ob').prop('disabled', false)
+        var id = $(ob).parents(".plan").find('.log').attr('id')
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/close",
+            data: "id=" + id,
+            dataType: "json",
+            success: function (res) {
+                $(ob).parents(".plan").notify("关闭成功", {
+                    className: "success",
+                    elementPosition: "top right",
+                    arrowShow: false
+                })
+                $(ob).parent("h3").hide()
+                $(ob).parent("h3").siblings('.link').show()
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (XMLHttpRequest.status == 500) {
+                    $(ob).parent("h3").notify(XMLHttpRequest.responseJSON.msg, {
+                        className: "error",
+                        elementPosition: "top right",
+                        arrowShow: false
+                    })
+                }
+            }
+        });
+    }
+
+    function showLog(ob) {
+
+        var log = $(ob).parent(".plan").find('.logSpan').html()
+        if (log != '是') {
+            $(ob).notify('日志功能未开启！', {
+                className: "error",
+                elementPosition: "top right",
+                arrowShow: false
+            })
+            return
+        }
+
+	domain = window.location.host
+        domainSlice = domain.split(":")
+        var id = $(ob).attr('id')
+        layer.open({
+            type: 2,
+            skin: "layui-layer-lan",
+            title: "日志",
+            shadeClose: true,
+            shade: 0.6,
+            maxmin: true,
+            area: ["800px", "500px"],
+            content: "http://"+domainSlice[0]+":8822/show/" + id + "#width=100%&height=300px",
+            padding: "10px"
+        });
+    }
+
+    function upload(types) {
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // 限制上传数量。
+            fileNumLimit: 8,
+            // swf文件路径
+            swf: '/static/webupload/Uploader.swf',
+            // 文件接收服务端。
+            server: '/uploade',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '.file_upload',
+            compress: false,
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: types,
+            }
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, response) {
+            if (response.msg == "") {
+                var id = '#rt_' + file.source.ruid
+                if (response.data.indexOf("key") != -1) {
+                    $(id).parents('a').siblings('input[name=key]').val(response.data)
+                } else {
+                    $(id).parents('a').siblings('input[name=crt]').val(response.data)
+                }
+
+                $(id).notify('上传成功', 'success')
+            } else {
+                $.notify(response.msg, {className: "error", elementPosition: "bottom right",})
+            }
+        });
+
+        uploader.on("error", function (type) {
+            if (type == "Q_TYPE_DENIED") {
+                $.notify("请上传" + types + "类型的文件", {className: "error", elementPosition: "bottom right",})
+            } else if (type == "F_EXCEED_SIZE") {
+                $.notify("文件大小不能超过8M", {className: "error", elementPosition: "bottom right",})
+            }
+        });
+    }
+
+    function getData(ob) {
+        var id = $(ob).siblings('.log').attr('id')
+        var status = $(ob).parents(".plan").find('.link').css("display")
+        if (status == 'none') {
+            $(ob).notify('已开启的代理不能修改！')
+            return
+        }
+        $('#updateModal').modal()
+        setTimeout(function () {
+            upload("crt,key")
+        }, 1000)
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/getData",
+            data: "id=" + id,
+            dataType: "json",
+            success: function (res) {
+                $('input[name=id]').eq(1).val(res.data.id)
+                $('input[name=name]').eq(1).val(res.data.name)
+                $('textarea[name=command]').eq(1).val(res.data.command)
+                $('input[name=key]').eq(1).val(res.data.key_file)
+                $('input[name=crt]').eq(1).val(res.data.crt_file)
+                if (res.data.auto_start == "是") {
+                    $('input[name=auto]').eq(3).prop('checked', true)
+                } else {
+                    $('input[name=auto]').eq(2).prop('checked', true)
+                }
+                if (res.data.log == "是") {
+                    $('input[name=log]').eq(3).prop('checked', true)
+                } else {
+                    $('input[name=log]').eq(2).prop('checked', true)
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (XMLHttpRequest.status == 500) {
+                    $(ob).notify(XMLHttpRequest.responseJSON.msg, {
+                        className: "error",
+                        elementPosition: "bottom right",
+                        arrowShow: false
+                    })
+                }
+            }
+        });
+    }
+
+    function update() {
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/update",
+            data: $('form').eq(2).serialize(),
+            dataType: "json",
+            success: function (res) {
+                $.notify("修改成功", "success")
+                setTimeout(function () {
+                    window.location.reload()
+                }, 2000)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (XMLHttpRequest.status == 500) {
+                    $.notify(XMLHttpRequest.responseJSON.msg, "error")
+                }
+            }
+        });
+    }
+
+    function confirmDel(ob) {
+        $('.del').removeClass('del')
+        var status = $(ob).parents(".plan").find('.link').css("display")
+        if (status == 'none') {
+            $(ob).notify('已开启的代理不能删除！')
+            return
+        }
+        $(ob).addClass('del')
+        $('#deleteModal').modal()
+    }
+
+    function del() {
+        var id = $('.del').siblings('.log').attr('id')
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/delete",
+            data: "id=" + id,
+            dataType: "json",
+            success: function (res) {
+                $.notify("删除成功", "success")
+                $('.del').parent(".plan").remove()
+                widthOrigin = $("#pricing-table").css("width")
+                if (widthOrigin != "800px") {
+                    width = widthOrigin.substr(0, 3)
+                    width = parseInt(width) - 200
+                    $("#pricing-table").css("width", width + "px")
+
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.notify(XMLHttpRequest.responseJSON.msg, "error")
+            }
+        });
+    }
+
+    function startUpload() {
+        setTimeout(function () {
+            upload("crt,key")
+        }, 1000)
+    }
+
+    function sysSetting() {
+        setting = $(".proxy").prop("checked")
+        if (!setting) {
+            $(".proxy-ip").prop("disabled", true)
+            $(".proxy-port").prop("disabled", true)
+        } else {
+            $(".proxy-ip").prop("disabled", false)
+            $(".proxy-port").prop("disabled", false)
+        }
+    }
+
+    function saveSetting() {
+        proxy = $(".proxy:checked").val()
+        ip = $(".proxy-ip").val()
+        port = $(".proxy-port").val()
+        if (proxy == "proxy") {
+            if (ip == "" || port == "") {
+                $.notify("ip和端口不能为空", "error")
+            }
+        }
+        auto = $(".auto_start:checked").val()
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/saveSetting",
+            data: "proxy=" + proxy + "&auto=" + auto + "&ip=" + ip + "&port=" + port,
+            dataType: "json",
+            success: function (res) {
+                $.notify("配置成功", "success")
+                setTimeout(function () {
+                    window.location.href = "/"
+                }, 2000)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.notify(XMLHttpRequest.responseJSON.msg, "error")
+            }
+        });
+    }
+
+    // $(function () {
+    //     domain = window.location.host
+    //     domainSlice = domain.split(":")
+    //     var wsUri = "ws://" + domainSlice[0] + ":8222/websocket";
+    //     websocket = new WebSocket(wsUri);
+    //
+    //     websocket.onopen = function () {
+    //         websocket.send("Hello WebSockets!");
+    //     }
+    // })
+    //
+    window.onbeforeunload = function () {
+        logout(2)
+    }
+
+    //function addId(ob) {
+      //  $(ob).attr("id","most-popular");
+    //}
+
+    //function removeId(ob) {
+      //  $(ob).attr("id","");
+    //}
+
+    function logout(type){
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/logout",
+            data: "type=" + type,
+            dataType: "json",
+            success: function (res) {
+                window.location.href = "/"
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.notify(XMLHttpRequest.responseJSON.msg, "error")
+            }
+        });
+    }
+
+</script>
+</html>

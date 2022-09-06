@@ -1,0 +1,41 @@
+{
+    "FixedFileInfo": {
+        "FileVersion": {
+            "Major": 2,
+            "Minor": 0,
+            "Patch": 0,
+            "Build": 0
+        },
+        "ProductVersion": {
+            "Major": 2,
+            "Minor": 0,
+            "Patch": 0,
+            "Build": 0
+        },
+        "FileFlagsMask": "3f",
+        "FileFlags ": "00",
+        "FileOS": "040004",
+        "FileType": "01",
+        "FileSubType": "00"
+    },
+    "StringFileInfo": {
+        "Comments": "proxy-web",
+        "CompanyName": "yc",
+        "FileDescription": "proxy-web启动器",
+        "FileVersion": "2.0",
+        "InternalName": "proxy-web.exe",
+        "LegalCopyright": "648588267@qq.com",
+        "LegalTrademarks": "",
+        "OriginalFilename": "proxy-web.exe",
+        "PrivateBuild": "",
+        "ProductName": "proxy-web",
+        "ProductVersion": "v2.0",
+        "SpecialBuild": ""
+    },
+    "VarFileInfo": {
+        "Translation": {
+            "LangID": "0409",
+            "CharsetID": "04B0"
+        }
+    }
+}
