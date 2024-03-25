@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"github.com/yincongcyincong/proxy-web/utils"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -9,7 +10,6 @@ import (
 	"os"
 	"os/exec"
 	"path"
-	"github.com/yincongcyincong/proxy-web/utils"
 	"runtime"
 	"strconv"
 	"strings"
@@ -40,7 +40,7 @@ func add(v http.ResponseWriter, r *http.Request) {
 	data["auto_start"] = autoStart
 	data["name"] = name
 	data["log"] = log
-	data["status"] = "未开启"
+	data["status"] = "close"
 	utils.ReturnJson("success", data, v)
 }
 
@@ -107,7 +107,7 @@ func link(v http.ResponseWriter, r *http.Request) {
 			utils.ReturnJson(errStr, "", v)
 			return
 		}
-		utils.ChangeParameterDataById(id, "已开启")
+		utils.ChangeParameterDataById(id, "open")
 		utils.ReturnJson("success", "", v)
 	}
 }
@@ -129,7 +129,7 @@ func getCommand(id string) (command string, err error) {
 	if parameter["crt_file"].(string) != "" {
 		command += " -C " + parameter["crt_file"].(string)
 	}
-	if parameter["log"] == "是" {
+	if parameter["log"] == "yes" {
 		command += " --log ./log/" + parameter["id"].(string) + ".log"
 	}
 	s, err := os.Stat("./log/")
@@ -147,7 +147,7 @@ func close(v http.ResponseWriter, r *http.Request) {
 		utils.ReturnJson("id not found", "", v)
 		return
 	}
-	err := utils.ChangeParameterDataById(id, "未开启")
+	err := utils.ChangeParameterDataById(id, "close")
 	if err != nil {
 		v.WriteHeader(http.StatusInternalServerError)
 		utils.ReturnJson(err.Error(), "", v)

@@ -61,7 +61,7 @@ func SaveParams(name, command, auto_start, key_file, crt_file, log string) (serv
 	params["key_file"] = key_file
 	params["crt_file"] = crt_file
 	params["id"] = serviceIdStr
-	params["status"] = "未开启"
+	params["status"] = "close"
 	params["log"] = log
 	paramJson, _ := json.Marshal(params)
 	fd.Write(paramJson)
@@ -106,7 +106,7 @@ func UpdateParams(serviceId, name, command, auto_start, key_file, crt_file, log 
 	params["key_file"] = key_file
 	params["crt_file"] = crt_file
 	params["id"] = serviceId
-	params["status"] = "未开启"
+	params["status"] = "close"
 	params["log"] = log
 	paramJson, _ := json.Marshal(params)
 	fd.Write(paramJson)
@@ -171,11 +171,11 @@ func InitParams() (datas []map[string]interface{}, err error) {
 		}
 		json.Unmarshal(dataByte, &data)
 
-		if auto_start == "是" {
-			data["status"] = "已开启"
+		if auto_start == "yes" {
+			data["status"] = "open"
 			datas = append(datas, data)
 		} else {
-			data["status"] = "未开启"
+			data["status"] = "close"
 		}
 
 		dataByte, _ = json.Marshal(data)
@@ -217,7 +217,7 @@ func GetAllParams() (datas []map[string]interface{}, err error) {
 			continue
 		}
 		json.Unmarshal(dataByte, &data)
-		if data["status"] == "已开启" {
+		if data["status"] == "open" {
 			datas = append(datas, data)
 		} else {
 			closeData = append(closeData, data)

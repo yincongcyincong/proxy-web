@@ -26,17 +26,17 @@
     <div class="profile-actions">
         <button onclick="startUpload()" class="btn btn-default ng-binding add" data-toggle="modal"
                 data-target="#exampleModal">
-            <span class="glyphicon glyphicon-plus"></span> 添加代理
+            <span class="glyphicon glyphicon-plus"></span> add proxy
         </button>
         <button onclick="sysSetting()" class="btn btn-default ng-binding add" data-toggle="modal"
                 data-target="#settingModal">
-            <span class="glyphicon glyphicon-cog"></span> 系统配置
+            <span class="glyphicon glyphicon-cog"></span> system conf
         </button>
         <button class="btn btn-default ng-binding add" onclick="logout(1)">
-            <span class="glyphicon glyphicon-share-alt"></span> 退出
+            <span class="glyphicon glyphicon-share-alt"></span> logout
         </button>
         <div style="color: #fff; float:right;">
-            goproxy-sdk版本: v{{.proxy_version}}, proxy-web版本：{{.version}}
+            goproxy-sdk version: v{{.proxy_version}}, proxy-web version：{{.version}}
         </div>
         <!-- <button class="btn btn-default ng-binding" data-toggle="modal" data-target="#keygenModal">
              <span class="glyphicon glyphicon-lock"></span> 生成加密证书
@@ -106,7 +106,7 @@
 
                     <div class="form-group auto">
                         <label class="control-label">
-                            名称:
+                            name:
                         </label>
                         <br>
                         <input type="text"
@@ -116,7 +116,7 @@
 
                     <div class="form-group auto">
                         <label class="control-label">
-                            参数:
+                            command:
                         </label>
                         <br>
                         <textarea class="form-control" rows="3" name="command"></textarea>
@@ -124,40 +124,40 @@
 
                     <div class="form-group auto">
                         <label class="control-label">
-                            自启动:
+                            auto start:
                         </label> &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="auto" data-val="" checked value="否"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="auto" value="是"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                        <input type="radio" name="auto" data-val="" checked value="no"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>no</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="auto" value="yes"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>yes</label>
                     </div>
 
                     <div class="form-group auto">
                         <label class="control-label">
-                            记录日志:
+                            show log:
                         </label> &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="log" data-val="" checked value="否"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="log" value="是"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                        <input type="radio" name="log" data-val="" checked value="no"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>no</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="log" value="yes"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>yes</label>
                     </div>
 
                     <div class="form-group encryptTerm">
                         <label for="recipient-name" class="control-label">
-                            上传key，crt文件:
+                            upload key，crt file:
                         </label>
                         <br>
                         <input type="hidden" name="key">
-                        <a class="signupNoMargin file_upload" style="margin-top: 0px;">.key文件</a>
+                        <a class="signupNoMargin file_upload" style="margin-top: 0px;">.key file</a>
                         <input type="hidden" name="crt" style="margin: 0px 0 0 0;">
-                        <a class="signupNoMargin file_upload">.crt文件</a>
+                        <a class="signupNoMargin file_upload">.crt file</a>
                     </div>
 
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" onclick="add()" class="btn signupNoMarginPadding">添加</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+                <button type="button" onclick="add()" class="btn signupNoMarginPadding">add</button>
             </div>
         </div>
     </div>
@@ -169,7 +169,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="exampleModalLabel">修改proxy</h4>
+                <h4 class="modal-title" id="exampleModalLabel">update proxy</h4>
             </div>
             <div class="modal-body">
                 <form>
@@ -177,7 +177,7 @@
 
                     <div class="form-group auto">
                         <label class="control-label">
-                            名称:
+                            name:
                         </label>
                         <br>
                         <input type="text"
@@ -187,7 +187,7 @@
 
                     <div class="form-group auto">
                         <label class="control-label">
-                            参数:
+                            command:
                         </label>
                         <br>
                         <textarea class="form-control" rows="3" name="command"></textarea>
@@ -197,37 +197,37 @@
                         <label class="control-label">
                             自启动:
                         </label> &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="auto" data-val="" checked value="否"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="auto" value="是"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                        <input type="radio" name="auto" data-val="" checked value="no"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>no</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="auto" value="yes"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>yes</label>
                     </div>
 
                     <div class="form-group auto">
                         <label class="control-label">
                             记录日志:
                         </label> &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="log" data-val="" checked value="否"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>否</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="log" value="是"
-                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>是</label>
+                        <input type="radio" name="log" data-val="" checked value="no"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>no</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="log" value="yes"
+                               class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched">&nbsp;&nbsp;<label>yes</label>
                     </div>
 
                     <div class="form-group encryptTerm">
                         <label for="recipient-name" class="control-label">
-                            上传key,crt文件:
+                            upload key,crt file:
                         </label>
                         <br>
                         <input type="hidden" name="key">
-                        <a class="signupNoMargin file_upload">.key文件</a>
+                        <a class="signupNoMargin file_upload">.key file</a>
                         <input type="hidden" name="crt">
-                        <a class="signupNoMargin file_upload">.crt文件</a>
+                        <a class="signupNoMargin file_upload">.crt file</a>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" onclick="update()" class="btn signupNoMarginPadding">修改</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+                <button type="button" onclick="update()" class="btn signupNoMarginPadding">update</button>
             </div>
         </div>
     </div>
@@ -239,18 +239,18 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="deleteModal">删除</h4>
+                <h4 class="modal-title" id="deleteModal">delete</h4>
             </div>
             <div class="modal-body" style="text-align: center;">
                 <div>
                     <label for="recipient-name" class="control-label">
-                        你确定要删除吗？
+                        are you sure to delete？
                     </label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" onclick="del()" data-dismiss="modal" class="btn signupNoMarginPadding">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                <button type="button" onclick="del()" data-dismiss="modal" class="btn signupNoMarginPadding">delete</button>
             </div>
         </div>
     </div>
@@ -270,17 +270,17 @@
 <script type="text/javascript">
 
     var html = '<div class="plan">\n' +
-            '        <h3 class="link"><span onclick="link(this)">连接</span></h3>\n' +
-            '        <h3 class="closed" style="display: none;"><span onclick="closed(this)" >关闭</span></h3>\n' +
+            '        <h3 class="link"><span onclick="link(this)">conn</span></h3>\n' +
+            '        <h3 class="closed" style="display: none;"><span onclick="closed(this)" >close</span></h3>\n' +
             '        <ul>\n' +
-            '            <li><b>名称：</b> <span class="nameSpan"></span></li>\n' +
-            '            <li><b>参数：</b> <br> <span class="commandSpan"></span></li>\n' +
-            '            <li><b>自启动：</b><span class="autoSpan"></span></li>\n' +
-            '            <li><b>记录日志：</b> <span class="logSpan"></span></li>\n' +
+            '            <li><b>name：</b> <span class="nameSpan"></span></li>\n' +
+            '            <li><b>command：</b> <br> <span class="commandSpan"></span></li>\n' +
+            '            <li><b>auto start：</b><span class="autoSpan"></span></li>\n' +
+            '            <li><b>log：</b> <span class="logSpan"></span></li>\n' +
             '        </ul> \n' +
-            '        <a class="log signup" onclick="showLog(this)">日志</a> ' +
-            '        <a class="update signup" onclick="getData(this)">修改</a> ' +
-            '        <a class="delete signup" onclick="confirmDel(this)">删除</a> ' +
+            '        <a class="log signup" onclick="showLog(this)">log</a> ' +
+            '        <a class="update signup" onclick="getData(this)">upd</a> ' +
+            '        <a class="delete signup" onclick="confirmDel(this)">del</a> ' +
             '    </div>';
 
     function initData() {
@@ -308,7 +308,7 @@
         $('.autoSpan').eq(-1).html(data['auto_start'])
         $('.logSpan').eq(-1).html(data['log'])
 
-        if (data['status'] == "已开启") {
+        if (data['status'] == "open") {
             $('.link').eq(-1).hide()
             $('.closed').eq(-1).show()
         }
@@ -320,7 +320,7 @@
         var name = $('form').eq(1).find("input[name=name]").val()
         var command = $('form').eq(1).find("textarea[name=command]").val()
         if (name == "") {
-            $.notify("代理名不能为空", {
+            $.notify("proxy name can't empty!", {
                 className: "error",
                 elementPosition: "top right",
                 arrowShow: false
@@ -328,7 +328,7 @@
             return
         }
         if (command == "") {
-            $.notify("代理命令不能为空", {
+            $.notify("proxy command can't empty!", {
                 className: "error",
                 elementPosition: "top right",
                 arrowShow: false
@@ -343,7 +343,7 @@
             data: $('form').eq(1).serialize(),
             dataType: "json",
             success: function (res) {
-                $.notify("添加成功", "success")
+                $.notify("add success", "success")
                 addContent(res.data)
                 $('#exampleModal').modal('hide')
                 widthOrigin = $("#pricing-table").css("width")
@@ -367,7 +367,7 @@
             data: "id=" + id,
             dataType: "json",
             success: function (res) {
-                $(ob).parents(".plan").notify("启动成功", {
+                $(ob).parents(".plan").notify("start success", {
                     className: "success",
                     elementPosition: "top left",
                     arrowShow: false
@@ -397,7 +397,7 @@
             data: "id=" + id,
             dataType: "json",
             success: function (res) {
-                $(ob).parents(".plan").notify("关闭成功", {
+                $(ob).parents(".plan").notify("close success", {
                     className: "success",
                     elementPosition: "top right",
                     arrowShow: false
@@ -420,8 +420,8 @@
     function showLog(ob) {
 
         var log = $(ob).parent(".plan").find('.logSpan').html()
-        if (log != '是') {
-            $(ob).notify('日志功能未开启！', {
+        if (log != 'yes') {
+            $(ob).notify('log is not opened！', {
                 className: "error",
                 elementPosition: "top right",
                 arrowShow: false
@@ -435,7 +435,7 @@
         layer.open({
             type: 2,
             skin: "layui-layer-lan",
-            title: "日志",
+            title: "log",
             shadeClose: true,
             shade: 0.6,
             maxmin: true,
@@ -476,7 +476,7 @@
                     $(id).parents('a').siblings('input[name=crt]').val(response.data)
                 }
 
-                $(id).notify('上传成功', 'success')
+                $(id).notify('upload success', 'success')
             } else {
                 $.notify(response.msg, {className: "error", elementPosition: "bottom right",})
             }
@@ -484,9 +484,9 @@
 
         uploader.on("error", function (type) {
             if (type == "Q_TYPE_DENIED") {
-                $.notify("请上传" + types + "类型的文件", {className: "error", elementPosition: "bottom right",})
+                $.notify("please update " + types + " file", {className: "error", elementPosition: "bottom right",})
             } else if (type == "F_EXCEED_SIZE") {
-                $.notify("文件大小不能超过8M", {className: "error", elementPosition: "bottom right",})
+                $.notify("file maximum size is  8M", {className: "error", elementPosition: "bottom right",})
             }
         });
     }
@@ -495,7 +495,7 @@
         var id = $(ob).siblings('.log').attr('id')
         var status = $(ob).parents(".plan").find('.link').css("display")
         if (status == 'none') {
-            $(ob).notify('已开启的代理不能修改！')
+            $(ob).notify("proxy is opened, can't update！")
             return
         }
         $('#updateModal').modal()
@@ -514,12 +514,12 @@
                 $('textarea[name=command]').eq(1).val(res.data.command)
                 $('input[name=key]').eq(1).val(res.data.key_file)
                 $('input[name=crt]').eq(1).val(res.data.crt_file)
-                if (res.data.auto_start == "是") {
+                if (res.data.auto_start == "yes") {
                     $('input[name=auto]').eq(3).prop('checked', true)
                 } else {
                     $('input[name=auto]').eq(2).prop('checked', true)
                 }
-                if (res.data.log == "是") {
+                if (res.data.log == "yes") {
                     $('input[name=log]').eq(3).prop('checked', true)
                 } else {
                     $('input[name=log]').eq(2).prop('checked', true)
@@ -545,7 +545,7 @@
             data: $('form').eq(2).serialize(),
             dataType: "json",
             success: function (res) {
-                $.notify("修改成功", "success")
+                $.notify("update succ", "success")
                 setTimeout(function () {
                     window.location.reload()
                 }, 2000)
@@ -562,7 +562,7 @@
         $('.del').removeClass('del')
         var status = $(ob).parents(".plan").find('.link').css("display")
         if (status == 'none') {
-            $(ob).notify('已开启的代理不能删除！')
+            $(ob).notify("proxy is opened, can't update！")
             return
         }
         $(ob).addClass('del')
@@ -578,7 +578,7 @@
             data: "id=" + id,
             dataType: "json",
             success: function (res) {
-                $.notify("删除成功", "success")
+                $.notify("delete success", "success")
                 $('.del').parent(".plan").remove()
                 widthOrigin = $("#pricing-table").css("width")
                 if (widthOrigin != "800px") {
@@ -617,7 +617,7 @@
         port = $(".proxy-port").val()
         if (proxy == "proxy") {
             if (ip == "" || port == "") {
-                $.notify("ip和端口不能为空", "error")
+                $.notify("ip or port can't empty", "error")
             }
         }
         auto = $(".auto_start:checked").val()
@@ -628,7 +628,7 @@
             data: "proxy=" + proxy + "&auto=" + auto + "&ip=" + ip + "&port=" + port,
             dataType: "json",
             success: function (res) {
-                $.notify("配置成功", "success")
+                $.notify("add success", "success")
                 setTimeout(function () {
                     window.location.href = "/"
                 }, 2000)

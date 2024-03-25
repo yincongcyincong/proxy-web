@@ -84,7 +84,7 @@ func AutoStart() {
 		if data["crt_file"].(string) != "" {
 			command += " -C " + data["crt_file"].(string)
 		}
-		if data["log"] == "是" {
+		if data["log"] == "yes" {
 			command += " --log " + dir + "/log/" + data["id"].(string) + ".log"
 		}
 		s, err := os.Stat(dir + "/log/")
@@ -99,7 +99,7 @@ func autoRunCommand(id, command string) {
 	fmt.Println(command)
 	errStr := proxy.Start(id, command)
 	if errStr != "" {
-		utils.ChangeParameterDataById(id, "未开启")
+		utils.ChangeParameterDataById(id, "close")
 	}
 }
 
