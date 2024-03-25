@@ -7,3 +7,4 @@ proxy-web.exe
 /tmp/
 .idea/
 /log/
+.DS_Store
