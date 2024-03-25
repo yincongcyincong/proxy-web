@@ -9,7 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
-	"proxy-web/utils"
+	"github.com/yincongcyincong/proxy-web/utils"
 	"runtime"
 	"strconv"
 	"strings"

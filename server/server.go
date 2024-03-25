@@ -60,7 +60,7 @@ func StartServer() {
 	if err != nil {
 		log.Fatal("get port failure: ", err)
 	}
-	fmt.Println("proxy-web: 127.0.0.1:" + port)
+	fmt.Println("proxy-web: 127.0.0.1" + port)
 	err = http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatal("listen port failure", err)

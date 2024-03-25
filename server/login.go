@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 	"io"
-	"proxy-web/utils"
+	"github.com/yincongcyincong/proxy-web/utils"
 	"html/template"
 )
 

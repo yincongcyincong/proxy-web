@@ -299,7 +299,7 @@ func ReadUDPPacket(_reader io.Reader) (srcAddr string, packet []byte, err error)
 	return
 }
 func Uniqueid() string {
-	return xid.xid.New().String()
+	return xid.New().String()
 	// var src = rand.NewSource(time.Now().UnixNano())
 	// s := fmt.Sprintf("%d", src.Int63())
 	// return s[len(s)-5:len(s)-1] + fmt.Sprintf("%d", uint64(time.Now().UnixNano()))[8:]
