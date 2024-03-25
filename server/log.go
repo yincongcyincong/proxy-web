@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/snail007/webtail"
+	"github.com/yincongcyincong/proxy-web/lib/webtail"
 	"log"
 )
 

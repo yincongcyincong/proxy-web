@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/snail007/goproxy/sdk/android-ios"
+	"github.com/yincongcyincong/proxy-web/lib/goproxy/sdk/android-ios"
 )
 
 func add(v http.ResponseWriter, r *http.Request) {
